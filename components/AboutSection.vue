@@ -4,13 +4,11 @@
     <div class="container">
       <h2 class="section-title">{{ about[0].title }}</h2>
 
-      <!-- <pre><code>{{ about }}</code></pre> -->
-      
       <div class="about-content">
         <div class="about-image">
           <div class="image-container">
             <!-- Hier kann ein Profilbild eingefügt werden -->
-            <div class="profile-placeholder" />
+            <img :src="about[0].meta.image" alt="Profilbild" class="profile-placeholder" >
             
             <!-- Optionaler Effekt für mehr visuelles Interesse -->
             <div class="image-decoration" />
@@ -19,15 +17,12 @@
         
         <div class="about-text">
           <ContentRenderer v-if="about" :value="about" />
-          <p class="about-description">
-            {{ about[0].description }}
-          </p>
 
           <div class="skills">
             <h3 class="skills-title">Meine Fähigkeiten</h3>
             <div class="skills-grid">
-              <div v-for="(skill, index) in skills" class="skill-item" :key="index">
-                <div class="skill-icon" v-html="skill.icon" />
+              <div v-for="(skill, index) in skillData" :key="index" class="skill-item">
+                <img class="skill-icon" :src="skill.icon" >
                 <h4 class="skill-name">{{ skill.name }}</h4>
                 <p class="skill-description">{{ skill.description }}</p>
               </div>
@@ -40,32 +35,20 @@
 </template>
 
 <script setup>
-// Skills Array mit Icons (du kannst diese anpassen)
-const skills = [
-  {
-    name: 'Video Editing',
-    description: 'Professionelle Bearbeitung von Filmmaterial mit Premire Pro & Final Cut.',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>'
-  },
-  {
-    name: 'Motion Design',
-    description: 'Kreative Animationen und visuelle Effekte mit After Effects.',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M5 10l7 7"></path><path d="M19 10l-7 7"></path></svg>'
-  },
-  {
-    name: '3D Animation',
-    description: 'Kreation von 3D-Modellen und Animationen mit Cinema 4D.',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22l9-16H3l9 16z"></path><path d="M12 22V6"></path><path d="M3 6h18"></path></svg>'
-  },
-  {
-    name: 'Color Grading',
-    description: 'Professionelle Farbkorrektur und Grading für Film und Video.',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v20"></path><path d="M2 12h20"></path></svg>'
-  }
-];
-
 // Fetch About Content
 const { data: about } = await useAsyncData('about', () => queryCollection('about').all());
+
+// fetch skills from about data where files are called about-skill-<id>.md
+const { data: skillsData } = await useAsyncData('skills', () => queryCollection('aboutSkills').all());
+console.log('Skills Data:', skillsData.value);
+
+// Map skills data to a more usable format
+const skillData = skillsData.value ? skillsData.value.map(skill => ({
+  name: skill.title,
+  description: skill.description,
+  icon: skill.meta.icon
+})) : [];
+
 </script>
 
 <style scoped>
@@ -109,20 +92,22 @@ const { data: about } = await useAsyncData('about', () => queryCollection('about
 
 .about-image {
   position: relative;
+  height: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .image-container {
   position: relative;
   width: 100%;
-  padding-bottom: 120%; /* Aspect Ratio */
+  height: 100%;
 }
 
 .profile-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 115%;
+  height: 100%;
+  object-fit: cover;
   background-color: #1a1a1a;
   border-radius: 8px;
   overflow: hidden;

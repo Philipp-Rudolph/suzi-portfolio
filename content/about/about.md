@@ -1,6 +1,7 @@
 ---
 title: Über mich
 description: Video Editor & Motion Designer mit Leidenschaft für visuelle Geschichten
+image: /images/suzi-portrait.jpg
 ---
 
 # Visuelle Geschichten zum Leben erwecken
