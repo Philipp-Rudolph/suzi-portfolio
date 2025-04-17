@@ -1,0 +1,211 @@
+// Die Variablen und Mixins werden durch additionalData in nuxt.config.js eingebunden
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Section mixins
+@mixin section-padding {
+  padding: $spacing-xxl 0;
+}
+
+@mixin section-title {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+  font-size: $font-size-xxlarge;
+  font-weight: 700;
+  color: $text-light;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: $primary;
+  }
+}
+
+// Transition mixins
+@mixin hover-transition($speed, $function) {
+  transition: all $speed $function;
+}
+
+// Effect mixins
+@mixin card-hover {
+  transform: translateY(-5px);
+  box-shadow: $box-shadow-lg;
+}
+
+// Grid mixins
+@mixin grid($columns: 3, $gap: $spacing-md) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// Media query mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: $breakpoint-xs) { @content; }
+  }
+  @else if $breakpoint == sm {
+    @media (max-width: $breakpoint-sm) { @content; }
+  }
+  @else if $breakpoint == md {
+    @media (max-width: $breakpoint-md) { @content; }
+  }
+  @else if $breakpoint == lg {
+    @media (max-width: $breakpoint-lg) { @content; }
+  }
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-block;
+  // padding: $spacing-sm $spacing-lg;
+  border-radius: $border-radius-sm;
+  font-weight: 600;
+  cursor: pointer;
+  @include hover-transition($transition-speed, $transition-function);
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $primary;
+  color: $text-light;
+  
+  &:hover {
+    background-color: $primary-light;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: transparent;
+  color: $text-light;
+  border: 2px solid $primary;
+  
+  &:hover {
+    background-color: rgba($primary, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+// Reset & Base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family-base;
+  background-color: $background-dark;
+  color: $text-light;
+  line-height: $line-height-base;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-heading;
+  font-weight: 700;
+  margin-bottom: $spacing-sm;
+}
+
+p {
+  margin-bottom: $spacing-sm;
+}
+
+a {
+  text-decoration: none;
+  color: $primary;
+  @include hover-transition($transition-speed, $transition-function);
+  
+  &:hover {
+    color: $primary-light;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Container
+.container {
+  max-width: $breakpoint-lg;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+// Buttons
+.btn {
+  &-primary {
+    @include button-primary;
+  }
+  
+  &-secondary {
+    @include button-secondary;
+  }
+}
+
+// Section styles
+section {
+  @include section-padding;
+}
+
+.section-title {
+  @include section-title;
+}
+
+// Responsive utilities
+@include respond-to(lg) {
+  .container {
+    max-width: $breakpoint-md;
+  }
+}
+
+@include respond-to(md) {
+  .container {
+    max-width: $breakpoint-sm;
+  }
+}
+
+@include respond-to(sm) {
+  .container {
+    max-width: $breakpoint-xs;
+  }
+  
+  .section-title {
+    font-size: $font-size-xlarge;
+  }
+}
+
+@include respond-to(xs) {
+  .container {
+    max-width: 100%;
+    padding: 0 $spacing-md;
+  }
+}
