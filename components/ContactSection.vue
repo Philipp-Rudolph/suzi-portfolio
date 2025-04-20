@@ -1,6 +1,6 @@
 <!-- components/ContactSection.vue -->
 <template>
-  <section id="contact" class="contact-section">
+  <section id="contact" class="contact-section section">
     <div class="container">
       <h2 class="section-title">{{ contact.title }}</h2>
       

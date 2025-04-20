@@ -1,7 +1,6 @@
 <!-- components/HeroSection.vue -->
 <template>
-  <TheHeader />
-  <section class="hero">
+  <section class="hero section">
     <div class="hero-content">
       <h1 class="hero-title">
         <span class="name">{{ heroData?.name || 'Max Mustermann' }}</span>
@@ -57,12 +56,6 @@ const { data: heroTransformed } = await useAsyncData('hero', async () => {
 <style scoped lang="scss">
 .hero {
   height: 100dvh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $background-dark;
-  overflow: hidden;
 }
 .hero-content {
   text-align: center;

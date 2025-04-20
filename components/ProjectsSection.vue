@@ -1,6 +1,6 @@
 <!-- components/ProjectsSection.vue -->
 <template>
-  <section id="projects" class="projects-section">
+  <section id="projects" class="projects-section section">
     <div class="container">
       <h2 class="section-title">Meine Projekte</h2>
 
@@ -98,17 +98,8 @@ const closeModal = () => {
 
 <style scoped lang="scss">
 .projects-section {
-  padding: $spacing-xxl 0;
-  background-color: $background-dark;
-  position: relative;
+  background-color: $background-darker;
 }
-
-.container {
-  max-width: $max-width-lg;
-  margin: 0 auto;
-  padding: 0 $spacing-md;
-}
-
 .projects-filter {
   display: flex;
   justify-content: center;

@@ -173,6 +173,16 @@ img {
   padding: 0 2rem;
 }
 
+.section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $background-dark;
+  overflow: hidden;
+  padding: $spacing-xxl 0;
+}
+
 // Buttons
 .btn {
   &-primary {

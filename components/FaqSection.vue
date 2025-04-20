@@ -1,5 +1,5 @@
 <template>
-  <div class="faq-section">
+  <div class="faq-section section">
     <div class=container>
     <template v-if="faq.body && Array.isArray(faq.body.value)">
       <div class="faq-content">
@@ -131,12 +131,8 @@ const groupedFaqItems = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-
 .faq-section {
-  margin-top: $spacing-xl;
-  padding: $spacing-lg;
-  background-color: $background-lighter;
-  border-radius: $border-radius-md;
+  background-color: $background-darker;
 }
 
 .faq-group {

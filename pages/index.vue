@@ -2,11 +2,17 @@
 <!-- pages/index.vue -->
 <template>
   <div class="portfolio">
+    <!-- Header -->
+    <TheHeader />
+
     <!-- Hero Section mit Animation -->
     <HeroSection />
     
     <!-- About Section -->
     <AboutSection id="about" />
+    
+    <!-- Skills Section -->
+    <SkillsSection id="skills" />
     
     <!-- Projects & Videos Section -->
     <ProjectsSection id="projects" />
