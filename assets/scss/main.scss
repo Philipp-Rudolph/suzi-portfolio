@@ -78,7 +78,9 @@
 
 // Button mixins
 @mixin button-base {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-items: center;
   // padding: $spacing-sm $spacing-lg;
   border-radius: $border-radius-sm;
   font-weight: 600;

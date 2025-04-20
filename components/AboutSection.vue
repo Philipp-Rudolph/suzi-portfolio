@@ -7,25 +7,39 @@
       <div class="about-content">
         <div class="about-image">
           <div class="image-container">
-            <!-- Hier kann ein Profilbild eingefügt werden -->
-            <img :src="about[0].meta.image" alt="Profilbild" class="profile-placeholder" >
-            
+            <img :src="about[0].meta.image" alt="Profilbild" class="profile-placeholder">
             <!-- Optionaler Effekt für mehr visuelles Interesse -->
             <div class="image-decoration" />
           </div>
         </div>
         
         <div class="about-text">
-          <ContentRenderer v-if="about" :value="about" />
-
-          <div class="skills">
-            <h3 class="skills-title">Meine Fähigkeiten</h3>
-            <div class="skills-grid">
-              <div v-for="(skill, index) in skillData" :key="index" class="skill-item">
-                <img class="skill-icon" :src="skill.icon" >
-                <h4 class="skill-name">{{ skill.name }}</h4>
-                <p class="skill-description">{{ skill.description }}</p>
+          <!-- About Text Content Cards -->
+          <div class="content-cards">
+            <div class="content-card" v-for="(group, groupIndex) in contentGroups" :key="groupIndex">
+              <component 
+                :is="group.heading.type" 
+                :id="group.heading.props?.id" 
+                class="content-card-heading"
+              >
+                {{ group.heading.content }}
+              </component>
+              <div v-for="(paragraph, pIndex) in group.paragraphs" :key="`p-${groupIndex}-${pIndex}`" class="content-card-paragraph">
+                {{ paragraph.content }}
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-skills">
+        <div class="skills">
+          <h3 class="skills-title">Meine Fähigkeiten</h3>
+          <div class="skills-grid">
+            <div v-for="(skill, index) in skillData" :key="index" class="skill-item">
+              <img class="skill-icon" :src="skill.icon">
+              <h4 class="skill-name">{{ skill.name }}</h4>
+              <p class="skill-description">{{ skill.description }}</p>
             </div>
           </div>
         </div>
@@ -40,7 +54,8 @@ const { data: about } = await useAsyncData('about', () => queryCollection('about
 
 // fetch skills from about data where files are called about-skill-<id>.md
 const { data: skillsData } = await useAsyncData('skills', () => queryCollection('aboutSkills').all());
-console.log('Skills Data:', skillsData.value);
+
+const aboutData = about.value ? about.value.map(entry => entry) : [];
 
 // Map skills data to a more usable format
 const skillData = skillsData.value ? skillsData.value.map(skill => ({
@@ -49,6 +64,36 @@ const skillData = skillsData.value ? skillsData.value.map(skill => ({
   icon: skill.meta.icon
 })) : [];
 
+// // Process the array into groups with headings and paragraphs
+const processContentArray = (arr) => {
+  if (typeof arr !== 'object' || !Array.isArray(arr)) {
+    return [];
+  }
+  
+  const groups = [];
+  let currentGroup = null;
+
+  for (const item of arr) {
+    const [type, props, content] = item;
+    
+    // If this is a heading, start a new group
+    if (type.startsWith('h')) {
+      currentGroup = {
+        heading: { type, props, content },
+        paragraphs: []
+      };
+      groups.push(currentGroup);
+    } 
+    // If this is a paragraph, add to the current group
+    else if (type === 'p' && currentGroup) {
+      currentGroup.paragraphs.push({ type, props, content });
+    }
+  }
+
+  return groups;
+};
+
+const contentGroups = processContentArray(aboutData[0].body.value);
 </script>
 
 <style scoped>
@@ -87,7 +132,8 @@ const skillData = skillsData.value ? skillsData.value.map(skill => ({
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 3rem;
-  align-items: center;
+  align-items: start;
+  margin-bottom: 3rem;
 }
 
 .about-image {
@@ -126,21 +172,61 @@ const skillData = skillsData.value ? skillsData.value.map(skill => ({
 
 .about-text {
   color: #f5f5f5;
+}
+
+/* Content Cards Styling */
+.content-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.content-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.content-card-heading {
+  color: #FF5722;
+  margin-bottom: 1rem;
+}
+
+.content-card h1 {
+  font-size: 1.8rem;
+}
+
+.content-card h2 {
+  font-size: 1.5rem;
+}
+
+.content-card-paragraph {
+  color: #ccc;
   line-height: 1.7;
+  margin-bottom: 1rem;
 }
 
-.about-text :deep(p) {
-  margin-bottom: 1.5rem;
+.content-card-paragraph:last-child {
+  margin-bottom: 0;
 }
 
-.skills {
-  margin-top: 3rem;
+.about-skills {
+  color: #f5f5f5;
+  line-height: 1.7;
 }
 
 .skills-title {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: white;
+  text-align: center;
 }
 
 .skills-grid {

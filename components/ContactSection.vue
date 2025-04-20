@@ -2,13 +2,13 @@
 <template>
   <section id="contact" class="contact-section">
     <div class="container">
-      <h2 class="section-title">Kontaktiere mich</h2>
+      <h2 class="section-title">{{ contact.title }}</h2>
       
       <div class="contact-content">
         <div class="contact-info">
-          <h3>Lass uns über dein Projekt sprechen</h3>
+          <h3>{{ contact.meta.heading }}</h3>
           <p class="contact-text">
-            Hast du ein spannendes Projekt, bei dem ich dir helfen kann? Ich freue mich auf deine Nachricht und antworte schnellstmöglich.
+            {{ contact.meta.intro }}
           </p>
           
           <div class="contact-details">
@@ -20,7 +20,7 @@
               </div>
               <div class="contact-text">
                 <span>Telefon</span>
-                <a href="tel:+491234567890">+49 123 456 7890</a>
+                <a :href="`tel:${contact.meta.phone}`">{{ contact.meta.phone }}</a>
               </div>
             </div>
             
@@ -33,7 +33,7 @@
               </div>
               <div class="contact-text">
                 <span>E-Mail</span>
-                <a href="mailto:kontakt@example.com">kontakt@example.com</a>
+                <a :href="`mailto:${contact.meta.email}`">{{ contact.meta.email }}</a>
               </div>
             </div>
             
@@ -46,39 +46,22 @@
               </div>
               <div class="contact-text">
                 <span>Standort</span>
-                <p>Berlin, Deutschland</p>
+                <p>{{ contact.meta.location }}</p>
               </div>
             </div>
           </div>
           
           <div class="social-links">
-            <a href="#" class="social-link" aria-label="Besuche mein Instagram">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </a>
-            
-            <a href="#" class="social-link" aria-label="Besuche meine Vimeo-Seite">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 6.66C22.91 5.92 22.51 5.01 21.81 4.31C21.11 3.61 20.21 3.2 19.46 3.1C16.79 2.73 12 2.73 12 2.73C12 2.73 7.21 2.73 4.54 3.1C3.79 3.2 2.89 3.61 2.19 4.31C1.49 5.01 1.09 5.92 1 6.66C0.75 8.3 0.75 11.7 0.75 11.7C0.75 11.7 0.75 15.1 1 16.74C1.09 17.48 1.49 18.39 2.19 19.09C2.89 19.79 3.79 20.2 4.54 20.3C7.21 20.67 12 20.67 12 20.67C12 20.67 16.79 20.67 19.46 20.3C20.21 20.2 21.11 19.79 21.81 19.09C22.51 18.39 22.91 17.48 23 16.74C23.25 15.1 23.25 11.7 23.25 11.7C23.25 11.7 23.25 8.3 23 6.66Z"></path>
-                <polygon points="9.75 15.27 15.75 11.7 9.75 8.13 9.75 15.27"></polygon>
-              </svg>
-            </a>
-            
-            <a href="#" class="social-link" aria-label="Besuche meinen Behance-Account">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 7h-7v10h7V7zm-7-4H3v18h12V3zm-4 10H7V9.5h4V13z"></path>
-              </svg>
-            </a>
-
-            <a href="#" class="social-link" aria-label="Besuche meine LinkedIn-Seite">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
+            <a 
+              v-for="social in contact.meta.social" 
+              :key="social.name"
+              :href="social.url" 
+              class="social-link" 
+              :aria-label="`Besuche mein ${social.name}`"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <component :is="getSocialIcon(social.icon)" />
             </a>
           </div>
         </div>
@@ -88,34 +71,34 @@
             <div class="form-group">
               <label for="name">Name</label>
               <input 
-                type="text" 
                 id="name" 
                 v-model="formData.name" 
+                type="text" 
                 placeholder="Dein Name"
                 required
-              />
+              >
             </div>
             
             <div class="form-group">
               <label for="email">E-Mail</label>
               <input 
-                type="email" 
                 id="email" 
                 v-model="formData.email" 
+                type="email" 
                 placeholder="Deine E-Mail-Adresse"
                 required
-              />
+              >
             </div>
             
             <div class="form-group">
               <label for="subject">Betreff</label>
               <input 
-                type="text" 
                 id="subject" 
                 v-model="formData.subject" 
+                type="text" 
                 placeholder="Worum geht es?"
                 required
-              />
+              >
             </div>
             
             <div class="form-group">
@@ -126,12 +109,12 @@
                 placeholder="Deine Nachricht"
                 rows="5"
                 required
-              ></textarea>
+              />
             </div>
             
             <button type="submit" class="submit-btn" :disabled="isSubmitting">
-              <span v-if="isSubmitting">Senden...</span>
-              <span v-else>Nachricht senden</span>
+              <span v-if="isSubmitting">{{ contact.meta.submittingButton || 'Senden...' }}</span>
+              <span v-else>{{ contact.meta.submitButton || 'Nachricht senden' }}</span>
             </button>
             
             <div v-if="submitStatus" :class="['status-message', submitStatus.type]">
@@ -140,12 +123,142 @@
           </form>
         </div>
       </div>
+
+      <!-- FAQ-Sektion im bestehenden ContactSection.vue -->
+    <!-- FAQ-Sektion mit korrigierter Accordion-Logik -->
+    <div class="faq-section">
+      <template v-if="contact.body && Array.isArray(contact.body.value)">
+        <div class="faq-content">
+          <template v-for="(item, index) in groupedFaqItems" :key="index">
+            <div class="faq-group">
+              <h2 v-if="item.title" class="faq-group-title">{{ item.title }}</h2>
+              
+              <!-- FAQ Fragen mit Accordion-Funktionalität -->
+              <div v-for="(qa, qaIndex) in item.questions" :key="qaIndex" class="faq-item">
+                <h3 
+                  class="faq-question" 
+                  :class="{ 'active': openQuestions[qa.id] }"
+                  @click="toggleQuestion(qa.id)"
+                >
+                  {{ qa.question }}
+                  <span class="faq-toggle">{{ openQuestions[qa.id] ? '−' : '+' }}</span>
+                </h3>
+                <div 
+                  class="faq-answer"
+                  :class="{ 'active': openQuestions[qa.id] }"
+                >
+                  <p v-for="(paragraph, pIndex) in qa.answers" :key="pIndex">
+                    {{ paragraph }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+    </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, h } from 'vue';
+
+// Zustandsvariable für geöffnete Fragen
+const openQuestions = ref({});
+
+// Funktion zum Umschalten des Accordion-Status
+const toggleQuestion = (id) => {
+  openQuestions.value = {
+    ...openQuestions.value,
+    [id]: !openQuestions.value[id]
+  };
+};
+
+// Gruppiere FAQ-Elemente in eine besser strukturierte Form
+const groupedFaqItems = computed(() => {
+  if (!contact.value?.body?.value || !Array.isArray(contact.value.body.value)) {
+    return [];
+  }
+
+  const items = contact.value.body.value;
+  const result = [];
+  let currentGroup = null;
+  let currentQuestion = null;
+
+  // Durchlaufe alle Elemente und gruppiere sie
+  for (const item of items) {
+    if (!Array.isArray(item) || item.length < 3) continue;
+    
+    const [type, props, content] = item;
+    
+    // Haupttitel (h2) beginnt eine neue Gruppe
+    if (type === 'h2') {
+      currentGroup = { 
+        title: content, 
+        id: props.id || `group-${result.length}`,
+        questions: [] 
+      };
+      result.push(currentGroup);
+      currentQuestion = null;
+    } 
+    // Frage (h3) beginnt eine neue Frage-Antwort-Paar
+    else if (type === 'h3' && currentGroup) {
+      currentQuestion = {
+        question: content,
+        id: props.id || `question-${currentGroup.questions.length}`,
+        answers: []
+      };
+      currentGroup.questions.push(currentQuestion);
+    } 
+    // Absatz (p) wird zur aktuellen Frage hinzugefügt
+    else if (type === 'p' && currentQuestion) {
+      currentQuestion.answers.push(content);
+    }
+    // Absatz (p) ohne vorherige Frage wird direkt zur Gruppe hinzugefügt
+    else if (type === 'p' && currentGroup && !currentQuestion) {
+      // Erstelle eine leere Frage, wenn nötig
+      if (currentGroup.questions.length === 0) {
+        currentQuestion = {
+          question: "",
+          id: `group-content-${currentGroup.id}`,
+          answers: []
+        };
+        currentGroup.questions.push(currentQuestion);
+      }
+      currentGroup.questions[currentGroup.questions.length - 1].answers.push(content);
+    }
+  }
+
+  return result;
+});
+
+// Fetch contact data from Nuxt Content
+const { data: contactData } = await useAsyncData('contact', () =>
+  queryCollection('contact').all()
+);
+
+// Debugging-Ausgabe
+console.log('Contact Data:', contactData.value);
+
+// Einfacherer Zugriff auf die Kontaktdaten
+const contact = computed(() => {
+  if (!contactData.value || contactData.value.length === 0) {
+    return {
+      title: 'Kontaktiere mich',
+      meta: {
+        heading: 'Lass uns über dein Projekt sprechen',
+        intro: 'Hast du ein spannendes Projekt, bei dem ich dir helfen kann? Ich freue mich auf deine Nachricht und antworte schnellstmöglich.',
+        phone: '+49 123 456 7890',
+        email: 'kontakt@example.com',
+        location: 'Berlin, Deutschland',
+        social: []
+      }
+    };
+  }
+  
+  return contactData.value[0];
+});
 
 // Form data
 const formData = ref({
@@ -173,7 +286,7 @@ const handleSubmit = async () => {
     // Erfolgsfall
     submitStatus.value = {
       type: 'success',
-      message: 'Deine Nachricht wurde erfolgreich gesendet! Ich melde mich in Kürze bei dir.'
+      message: contact.value.meta.formSuccess || 'Deine Nachricht wurde erfolgreich gesendet! Ich melde mich in Kürze bei dir.'
     };
     
     // Formular zurücksetzen
@@ -189,11 +302,96 @@ const handleSubmit = async () => {
     console.error('Fehler beim Senden des Formulars:', error);
     submitStatus.value = {
       type: 'error',
-      message: 'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'
+      message: contact.value.meta.formError || 'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'
     };
   } finally {
     isSubmitting.value = false;
   }
+};
+
+// Funktion zum Rendern der Social Media Icons
+const getSocialIcon = (iconName) => {
+  // Hier könntest du eine vollständige Icon-Bibliothek implementieren
+  // Für dieses Beispiel verwenden wir nur eine einfache Switch-Anweisung
+  
+  // Social Media Icons als Komponenten (vereinfacht)
+  const icons = {
+    instagram: {
+      render() {
+        return h('svg', {
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 24 24',
+          width: '24',
+          height: '24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }, [
+          h('rect', { x: '2', y: '2', width: '20', height: '20', rx: '5', ry: '5' }),
+          h('path', { d: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' }),
+          h('line', { x1: '17.5', y1: '6.5', x2: '17.51', y2: '6.5' })
+        ]);
+      }
+    },
+    vimeo: {
+      render() {
+        return h('svg', {
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 24 24',
+          width: '24',
+          height: '24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }, [
+          h('path', { d: 'M23 6.66C22.91 5.92 22.51 5.01 21.81 4.31C21.11 3.61 20.21 3.2 19.46 3.1C16.79 2.73 12 2.73 12 2.73C12 2.73 7.21 2.73 4.54 3.1C3.79 3.2 2.89 3.61 2.19 4.31C1.49 5.01 1.09 5.92 1 6.66C0.75 8.3 0.75 11.7 0.75 11.7C0.75 11.7 0.75 15.1 1 16.74C1.09 17.48 1.49 18.39 2.19 19.09C2.89 19.79 3.79 20.2 4.54 20.3C7.21 20.67 12 20.67 12 20.67C12 20.67 16.79 20.67 19.46 20.3C20.21 20.2 21.11 19.79 21.81 19.09C22.51 18.39 22.91 17.48 23 16.74C23.25 15.1 23.25 11.7 23.25 11.7C23.25 11.7 23.25 8.3 23 6.66Z' }),
+          h('polygon', { points: '9.75 15.27 15.75 11.7 9.75 8.13 9.75 15.27' })
+        ]);
+      }
+    },
+    behance: {
+      render() {
+        return h('svg', {
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 24 24',
+          width: '24',
+          height: '24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }, [
+          h('path', { d: 'M22 7h-7v10h7V7zm-7-4H3v18h12V3zm-4 10H7V9.5h4V13z' })
+        ]);
+      }
+    },
+    linkedin: {
+      render() {
+        return h('svg', {
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 24 24',
+          width: '24',
+          height: '24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }, [
+          h('path', { d: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z' }),
+          h('rect', { x: '2', y: '9', width: '4', height: '12' }),
+          h('circle', { cx: '4', cy: '4', r: '2' })
+        ]);
+      }
+    }
+  };
+  
+  return icons[iconName] || null;
 };
 </script>
 
@@ -254,7 +452,7 @@ const handleSubmit = async () => {
 
 .contact-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 1.5rem;
 }
 
@@ -295,6 +493,7 @@ const handleSubmit = async () => {
 .social-links {
   display: flex;
   gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .social-link {
@@ -312,6 +511,82 @@ const handleSubmit = async () => {
 .social-link:hover {
   background-color: #FF5722;
   transform: translateY(-3px);
+}
+
+.faq-section {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+}
+
+.faq-group {
+  margin-bottom: 2rem;
+}
+
+.faq-group-title {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.faq-item {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.faq-question {
+  font-size: 1.2rem;
+  color: #FF5722;
+  padding: 1rem 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+  color: #FF8A65;
+}
+
+.faq-question.active {
+  color: #FF8A65;
+}
+
+.faq-toggle {
+  font-size: 1.5rem;
+  color: #FF5722;
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active .faq-toggle {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 1rem;
+  opacity: 0;
+}
+
+.faq-answer.active {
+  max-height: 500px; /* Anpassen je nach Bedarf */
+  padding: 0 1rem 1rem;
+  opacity: 1;
+}
+
+.faq-answer p {
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.faq-answer p:last-child {
+  margin-bottom: 0;
 }
 
 /* Contact Form Styling */

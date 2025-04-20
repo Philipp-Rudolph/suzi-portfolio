@@ -6,6 +6,10 @@ export default defineContentConfig({
       type: 'page',
       source: '**'
     }),
+    hero: defineCollection({
+      type: 'page',
+      source: 'index.md'
+    }),
     about: defineCollection({
       type: 'page',
       source: 'about/*.md'
@@ -17,6 +21,10 @@ export default defineContentConfig({
     projects: defineCollection({
       type: 'page',
       source: 'projects/*.md'
+    }),
+    contact: defineCollection({
+      type: 'page',
+      source: 'contact/*.md'
     })
   }
 })

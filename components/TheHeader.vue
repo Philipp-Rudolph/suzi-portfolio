@@ -4,7 +4,7 @@
     <div class="header-content">
       <div class="logo">
         <!-- Logo kann hier platziert werden -->
-        <span class="logo-text">MM</span>
+        <span class="logo-text">Portfolio</span>
       </div>
       
       <nav class="nav-desktop">

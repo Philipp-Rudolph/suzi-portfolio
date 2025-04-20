@@ -88,37 +88,12 @@ const filteredProjects = computed(() => {
 const openProjectDetails = (project) => {
   selectedProject.value = project
   modalOpen.value = true
-  lockScroll()
 }
 
 const closeModal = () => {
   modalOpen.value = false
   setTimeout(() => (selectedProject.value = null), 300)
-  unlockScroll()
 }
-
-// Scroll lock (same as before)
-// const isClient = typeof window !== 'undefined'
-// const documentBody = isClient ? document.body : null
-
-// const lockScroll = () => {
-//   if (isClient) {
-//     const scrollY = window.scrollY
-//     documentBody.style.position = 'fixed'
-//     documentBody.style.top = `-${scrollY}px`
-//     documentBody.style.width = '100%'
-//   }
-// }
-
-// const unlockScroll = () => {
-//   if (isClient) {
-//     const scrollY = documentBody.style.top
-//     documentBody.style.position = ''
-//     documentBody.style.top = ''
-//     documentBody.style.width = ''
-//     window.scrollTo(scrollY, parseInt(scrollY || '0') * -1)
-//   }
-// }
 </script>
 
 <style scoped>
@@ -265,10 +240,9 @@ const closeModal = () => {
 }
 
 .project-meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
 .meta-item {

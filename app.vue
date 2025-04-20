@@ -108,12 +108,6 @@ html {
   color: white;
 }
 
-// Verbesserte Fokus-Styles für Barrierefreiheit
-:focus {
-  outline: 2px solid $primary; // Verwende hier $primary anstelle von $primary-color
-  outline-offset: 2px;
-}
-
 // Verbessertes Box-Sizing
 html {
   box-sizing: border-box;
@@ -126,9 +120,13 @@ html {
 }
 
 // Verbesserte Grundstile für Formularelemente
-button, input, select, textarea {
+button, input, select, textarea, a {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+
+  // remove outline
+  outline: none;
+  border: none;
 }
 </style>
