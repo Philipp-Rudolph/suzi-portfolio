@@ -96,71 +96,51 @@ const closeModal = () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .projects-section {
-  padding: 6rem 0;
-  background-color: #121212;
+  padding: $spacing-xxl 0;
+  background-color: $background-dark;
   position: relative;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: $max-width-lg;
   margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 3rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  position: relative;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #FF5722;
+  padding: 0 $spacing-md;
 }
 
 .projects-filter {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
   flex-wrap: wrap;
 }
 
 .filter-btn {
   background: none;
-  border: 1px solid #333;
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 30px;
+  border: $pixel-base solid $border-color;
+  color: $text-light;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $pixel-xxxl;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: $transition;
 }
 
 .filter-btn:hover {
-  background-color: rgba(255, 87, 34, 0.1);
-  border-color: #FF5722;
+  background-color: $primary-translucent;
+  border-color: $primary;
 }
 
 .filter-btn.active {
-  background-color: #FF5722;
-  border-color: #FF5722;
+  background-color: $primary;
+  border-color: $primary;
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax($max-width-xxs, 1fr));
+  gap: $spacing-lg;
 }
 
 /* Project Modal */
@@ -170,14 +150,14 @@ const closeModal = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 1000;
+  background-color: $backdrop;
+  z-index: $z-index-modal;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: $transition;
 }
 
 .project-modal.open {
@@ -187,15 +167,15 @@ const closeModal = () => {
 
 .modal-content {
   width: 90%;
-  max-width: 1000px;
-  background-color: #1a1a1a;
-  border-radius: 8px;
+  max-width: $max-width-md;
+  background-color: $background-lighter;
+  border-radius: $border-radius-md;
   overflow: hidden;
-  max-height: 90vh;
+  max-height: 90dvh;
   display: flex;
   flex-direction: column;
   transform: scale(0.9);
-  transition: transform 0.3s ease;
+  transition: $transition;
 }
 
 .project-modal.open .modal-content {
@@ -204,68 +184,69 @@ const closeModal = () => {
 
 .close-modal {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: $spacing-sm;
+  right: $spacing-sm;
   background: none;
   border: none;
-  color: white;
-  font-size: 2rem;
+  color: $text-light;
+  font-size: $spacing-lg;
   cursor: pointer;
-  z-index: 10;
+  z-index: $z-index-dropdown-menu;
 }
 
 .modal-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #333;
+  padding: $spacing-md;
+  border-bottom: $pixel-base solid $border-color;
 }
 
 .modal-header h3 {
   margin: 0;
-  font-size: 1.8rem;
-  color: white;
+  font-size: $font-size-large;
+  font-weight: $font-weight-bold;
+  color: $text-light;
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: $spacing-md;
   overflow-y: auto;
 }
 
 .project-details {
-  margin-top: 2rem;
+  margin-top: $spacing-lg;
 }
 
 .project-description {
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
+  margin-bottom: $spacing-md;
+  line-height: $line-height-base;
 }
 
 .project-meta {
   display: flex;
-  gap: 0.5rem;
+  gap: $spacing-xs;
   justify-content: space-between;
 }
 
 .meta-item {
-  padding: 0.5rem 0;
+  padding: $spacing-xs 0;
 }
 
 .project-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: $spacing-xs;
+  margin-top: $spacing-sm;
 }
 
 .tag {
-  background-color: rgba(255, 87, 34, 0.1);
-  color: #FF5722;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  background-color: $backdrop;
+  color: $primary;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-small;
 }
 
 .debug-info {
-  color: black;
+  color: $text-dark;
 }
 
 /* Responsive */

@@ -54,54 +54,54 @@ const { data: heroTransformed } = await useAsyncData('hero', async () => {
 */
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hero {
-  height: 100vh;
+  height: 100dvh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #121212;
+  background-color: $background-dark;
   overflow: hidden;
 }
 .hero-content {
   text-align: center;
   z-index: 2;
-  max-width: 1200px;
-  padding: 0 2rem;
+  max-width: $max-width-lg;
+  padding: 0 $spacing-lg;
 }
 .hero-title {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
+  margin-bottom: $spacing-lg;
 }
 .name {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: $font-size-max;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-sm; /* Updated margin-bottom for name */
 }
 .profession {
-  font-size: 1.8rem;
-  color: #FF5722; /* Orange Akzentfarbe */
+  font-size: $font-size-xlarge;
+  color: $primary; /* Orange Akzentfarbe */
 }
 .hero-reel {
-  margin: 3rem 0;
+  margin: $spacing-xl 0;
 }
 .reel-placeholder {
   width: 100%;
-  height: 300px;
-  background-color: rgba(255, 87, 34, 0.1); /* Transparentes Orange */
-  border-radius: 8px;
+  height: $max-width-xxs;
+  background-color: $primary-translucent; /* Transparentes Orange */
+  border-radius: $border-radius-md;
   position: relative;
   overflow: hidden;
 }
 .animation-element {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: #FF5722;
-  border-radius: 50%;
-  top: 50%;
+  width: calc($pixel-xl * 5);
+  height: calc($pixel-xl * 5);
+  background-color: $primary; 
+  border-radius: $border-radius-full;
+  top: $border-radius-full;
   left: 0;
   transform: translateY(-50%);
   animation: move 3s infinite ease-in-out;
@@ -113,32 +113,32 @@ const { data: heroTransformed } = await useAsyncData('hero', async () => {
 }
 .hero-cta {
   display: flex;
-  gap: 1rem;
+  gap: $spacing-sm;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: $spacing-lg;
 }
 .btn-primary, .btn-secondary {
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  font-weight: 600;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-sm;
+  font-weight: $font-weight-bold;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: $transition;
 }
 .btn-primary {
-  background-color: #FF5722;
-  color: white;
+  background-color: $primary;
+  color: $text-light;
 }
 .btn-primary:hover {
-  background-color: #FF8A65;
+  background-color: $primary-light;
   transform: translateY(-2px);
 }
 .btn-secondary {
   background-color: transparent;
-  color: white;
-  border: 2px solid #FF5722;
+  color: $text-light; 
+  border: 2px solid $primary; 
 }
 .btn-secondary:hover {
-  background-color: rgba(255, 87, 34, 0.1);
+  background-color: $primary-translucent;
   transform: translateY(-2px);
 }
 </style>

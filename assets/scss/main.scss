@@ -1,3 +1,7 @@
+// @import url('./_colors.scss');
+// @import url('./_mixins.scss');
+// @import url('./_colors.scss');
+
 // Die Variablen und Mixins werden durch additionalData in nuxt.config.js eingebunden
 // Flexbox mixins
 @mixin flex-center {
@@ -39,6 +43,13 @@
     width: 60px;
     height: 3px;
     background-color: $primary;
+    @include hover-transition($transition-speed, $transition-function);
+  }
+
+  &:hover {
+    &::after {
+      width: 100%;
+    }
   }
 }
 
@@ -156,10 +167,10 @@ img {
 
 // Container
 .container {
-  max-width: $breakpoint-lg;
+  max-width: $max-width-lg;
   width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-lg;
+  padding: 0 2rem;
 }
 
 // Buttons

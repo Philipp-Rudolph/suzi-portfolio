@@ -25,6 +25,10 @@ export default defineContentConfig({
     contact: defineCollection({
       type: 'page',
       source: 'contact/*.md'
+    }),
+    faq: defineCollection({
+      type: 'page',
+      source: 'faq/*.md'
     })
   }
 })

@@ -34,7 +34,7 @@
 
       <div class="about-skills">
         <div class="skills">
-          <h3 class="skills-title">Meine Fähigkeiten</h3>
+          <h3 class="section-title">Meine Fähigkeiten</h3>
           <div class="skills-grid">
             <div v-for="(skill, index) in skillData" :key="index" class="skill-item">
               <img class="skill-icon" :src="skill.icon">
@@ -96,36 +96,16 @@ const processContentArray = (arr) => {
 const contentGroups = processContentArray(aboutData[0].body.value);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .about-section {
-  padding: 6rem 0;
-  background-color: #0d0d0d;
+  padding: $spacing-xxl 0;
+  background-color: $background-darker;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: $breakpoint-lg;
   margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 3rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  position: relative;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #FF5722;
+  padding: 0 $spacing-lg;
 }
 
 .about-content {
@@ -139,8 +119,8 @@ const contentGroups = processContentArray(aboutData[0].body.value);
 .about-image {
   position: relative;
   height: 100%;
-  max-width: 400px;
-  border-radius: 8px;
+  max-width: $max-width-xs;
+  border-radius: $border-radius-md;
   overflow: hidden;
 }
 
@@ -148,69 +128,78 @@ const contentGroups = processContentArray(aboutData[0].body.value);
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden; 
 }
 
 .profile-placeholder {
   width: 100%;
   height: 100%;
+  display: block;
+  transition: all 0.5s ease;
+  filter: grayscale(1) brightness(0.8);
   object-fit: cover;
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  overflow: hidden;
+  background-color: $background-lighter;
+  border-radius: $border-radius-md;
 }
+
+.profile-placeholder:hover {
+  background-color: $primary;
+  transform: scale(1.05);
+  filter: grayscale(0);
+ }
 
 .image-decoration {
   position: absolute;
-  top: 20px;
-  right: -20px;
+  top: $pixel-xl;
+  right: -$pixel-xl;
   width: 100%;
   height: 100%;
-  border: 3px solid #FF5722;
-  border-radius: 8px;
-  z-index: -1;
+  border: calc($pixel-xs - 1px) solid $primary;
+  border-radius: $border-radius-md;
+  z-index: $z-index-background;
 }
 
 .about-text {
-  color: #f5f5f5;
+  color: $text-darker;
 }
 
 /* Content Cards Styling */
 .content-cards {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: $spacing-lg;
 }
 
 .content-card {
   background-color: #1a1a1a;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+  box-shadow: $box-shadow;
+  transition: transform $transition-speed $transition-function, box-shadow $transition-speed $transition-function;
 }
 
 .content-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(calc(-1 * $pixel-xs - 1px));
+  box-shadow: $box-shadow-lg;
 }
 
 .content-card-heading {
-  color: #FF5722;
-  margin-bottom: 1rem;
+  color: $primary;
+  margin-bottom: $spacing-sm;
 }
 
 .content-card h1 {
-  font-size: 1.8rem;
+  font-size: $font-size-large;
 }
 
 .content-card h2 {
-  font-size: 1.5rem;
+  font-size: $font-size-medium;
 }
 
 .content-card-paragraph {
-  color: #ccc;
-  line-height: 1.7;
-  margin-bottom: 1rem;
+  color: $text-muted;
+  line-height: $line-height-base;
+  margin-bottom: $spacing-sm;
 }
 
 .content-card-paragraph:last-child {
@@ -218,49 +207,49 @@ const contentGroups = processContentArray(aboutData[0].body.value);
 }
 
 .about-skills {
-  color: #f5f5f5;
-  line-height: 1.7;
+  color: $text-darker;
+  line-height: $line-height-base;
 }
 
 .skills-title {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: white;
+  font-size: $font-size-large;
+  margin-bottom: $spacing-md;
+  color: $text-light;
   text-align: center;
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(calc($pixel-xxl * 10), 1fr));
+  gap: $spacing-md;
 }
 
 .skill-item {
-  background-color: #1a1a1a;
-  padding: 1.5rem;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: $background-lighter;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  transition: transform $transition-speed $transition-function, box-shadow $transition-speed $transition-function;
 }
 
 .skill-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(calc(-1 * $pixel-xs - 1px));
+  box-shadow: $box-shadow-hover;
 }
 
 .skill-icon {
-  margin-bottom: 1rem;
+  margin-bottom: $spacing-sm;
 }
 
 .skill-name {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #FF5722;
+  font-size: $font-size-medium;
+  margin-bottom: $spacing-xs;
+  color: $primary;
 }
 
 .skill-description {
-  font-size: 0.9rem;
-  color: #ccc;
-  line-height: 1.5;
+  font-size: $font-size-small;
+  color: $text-muted;
+  line-height: $line-height-base;
 }
 
 /* Responsive */
@@ -270,8 +259,8 @@ const contentGroups = processContentArray(aboutData[0].body.value);
   }
   
   .about-image {
-    max-width: 300px;
-    margin: 0 auto 2rem;
+    max-width: $max-width-xxs;
+    margin: 0 auto $spacing-lg;
   }
   
   .skills-grid {

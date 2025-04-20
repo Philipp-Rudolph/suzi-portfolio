@@ -30,18 +30,18 @@ defineProps({
 defineEmits(['click']);
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .project-card {
-  background-color: #1a1a1a;
-  border-radius: 8px;
+  background-color: $background-lighter;
+  border-radius: $border-radius-md;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: $transition;
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-$pixel-xs);
+  box-shadow: $box-shadow-lg;
 }
 
 .project-card:hover .project-overlay {
@@ -49,7 +49,7 @@ defineEmits(['click']);
 }
 
 .project-thumbnail {
-  height: 200px;
+  height: calc($pixel-xl * 10);
   background-size: cover;
   background-position: center;
   position: relative;
@@ -63,19 +63,19 @@ defineEmits(['click']);
   height: 100%;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: $transition;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem;
+  padding: $spacing-md;
 }
 
 .project-category {
-  background-color: #FF5722;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  background-color: $primary;
+  color: $text-light;
+  padding: $spacing-xs $spacing-sm;  
+  border-radius: $border-radius-sm;
+  font-size: $font-size-small;
   align-self: flex-start;
 }
 
@@ -86,42 +86,42 @@ defineEmits(['click']);
 }
 
 .action-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 2px solid white;
-  color: white;
+  width: calc($pixel-xl * 2.5);
+  height: calc($pixel-xl * 2.5);
+  border-radius: $border-radius-full;
+  background-color: $white-translucent;
+  border: calc($pixel-xs / 2) solid $text-light;
+  color: $text-light;  
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: $transition;
 }
 
 .action-btn:hover {
-  background-color: #FF5722;
-  border-color: #FF5722;
+  background-color: $primary;
+  border-color: $primary;
   transform: scale(1.1);
 }
 
 .play-icon {
-  margin-left: 4px;
+  margin-left: $pixel-xs;
 }
 
 .project-info {
-  padding: 1rem;
+  padding: $spacing-sm;
 }
 
 .project-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.2rem;
-  color: white;
+  margin: 0 0 $spacing-xs 0;
+  font-size: $font-size-medium;
+  color: $text-light;
 }
 
 .project-client {
   margin: 0;
-  font-size: 0.9rem;
-  color: #aaa;
+  font-size: $font-size-small;
+  color: $text-muted;
 }
 </style>

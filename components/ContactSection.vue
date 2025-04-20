@@ -157,89 +157,17 @@
         </div>
       </template>
     </div>
+
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, h } from 'vue';
-
-// Zustandsvariable für geöffnete Fragen
-const openQuestions = ref({});
-
-// Funktion zum Umschalten des Accordion-Status
-const toggleQuestion = (id) => {
-  openQuestions.value = {
-    ...openQuestions.value,
-    [id]: !openQuestions.value[id]
-  };
-};
-
-// Gruppiere FAQ-Elemente in eine besser strukturierte Form
-const groupedFaqItems = computed(() => {
-  if (!contact.value?.body?.value || !Array.isArray(contact.value.body.value)) {
-    return [];
-  }
-
-  const items = contact.value.body.value;
-  const result = [];
-  let currentGroup = null;
-  let currentQuestion = null;
-
-  // Durchlaufe alle Elemente und gruppiere sie
-  for (const item of items) {
-    if (!Array.isArray(item) || item.length < 3) continue;
-    
-    const [type, props, content] = item;
-    
-    // Haupttitel (h2) beginnt eine neue Gruppe
-    if (type === 'h2') {
-      currentGroup = { 
-        title: content, 
-        id: props.id || `group-${result.length}`,
-        questions: [] 
-      };
-      result.push(currentGroup);
-      currentQuestion = null;
-    } 
-    // Frage (h3) beginnt eine neue Frage-Antwort-Paar
-    else if (type === 'h3' && currentGroup) {
-      currentQuestion = {
-        question: content,
-        id: props.id || `question-${currentGroup.questions.length}`,
-        answers: []
-      };
-      currentGroup.questions.push(currentQuestion);
-    } 
-    // Absatz (p) wird zur aktuellen Frage hinzugefügt
-    else if (type === 'p' && currentQuestion) {
-      currentQuestion.answers.push(content);
-    }
-    // Absatz (p) ohne vorherige Frage wird direkt zur Gruppe hinzugefügt
-    else if (type === 'p' && currentGroup && !currentQuestion) {
-      // Erstelle eine leere Frage, wenn nötig
-      if (currentGroup.questions.length === 0) {
-        currentQuestion = {
-          question: "",
-          id: `group-content-${currentGroup.id}`,
-          answers: []
-        };
-        currentGroup.questions.push(currentQuestion);
-      }
-      currentGroup.questions[currentGroup.questions.length - 1].answers.push(content);
-    }
-  }
-
-  return result;
-});
 
 // Fetch contact data from Nuxt Content
 const { data: contactData } = await useAsyncData('contact', () =>
   queryCollection('contact').all()
 );
-
-// Debugging-Ausgabe
-console.log('Contact Data:', contactData.value);
 
 // Einfacherer Zugriff auf die Kontaktdaten
 const contact = computed(() => {
@@ -395,76 +323,50 @@ const getSocialIcon = (iconName) => {
 };
 </script>
 
-<style scoped>
+<style scoped  lang="scss">
 .contact-section {
-  padding: 6rem 0;
-  background-color: #121212;
+  padding: $spacing-xxl 0;
+  background-color: $background-dark;
   position: relative;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 3rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  position: relative;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #FF5722;
 }
 
 .contact-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: $spacing-xl;
 }
 
 .contact-info h3 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: white;
+  font-size: $font-size-xlarge;
+  margin-bottom: $spacing-md;
+  color: $text-light;
 }
 
 .contact-text {
-  margin-bottom: 2rem;
-  color: #ccc;
-  line-height: 1.6;
+  margin-bottom: $spacing-xl;
+  color: $text-muted;
+  line-height: $line-height-base;
 }
 
 .contact-details {
-  margin-bottom: 2rem;
+  margin-bottom: $spacing-xl;
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-md;
 }
 
 .contact-icon {
-  margin-right: 1rem;
+  margin-right: $spacing-sm;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 87, 34, 0.1);
-  border-radius: 50%;
+  width: calc($pixel-xl * 2);
+  height: calc($pixel-xl * 2);;
+  background-color: $primary-translucent;
+  border-radius: $border-radius-full%;
 }
 
 .contact-item .contact-text {
@@ -473,133 +375,57 @@ const getSocialIcon = (iconName) => {
 
 .contact-item .contact-text span {
   display: block;
-  font-size: 0.9rem;
-  color: #999;
-  margin-bottom: 0.3rem;
+  font-size: $font-size-small;
+  color: $text-darken;
+  margin-bottom: $spacing-xs;
 }
 
 .contact-item .contact-text a,
 .contact-item .contact-text p {
   color: white;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: $font-size-medium;
   margin: 0;
 }
 
 .contact-item .contact-text a:hover {
-  color: #FF5722;
+  color: $primary;
 }
 
 .social-links {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
 }
 
 .social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #1a1a1a;
-  border-radius: 50%;
-  color: white;
-  transition: all 0.3s ease;
+  width: calc($pixel-xl * 2);  
+  height: calc($pixel-xl * 2);  
+  background-color: $background-lighter;
+  border-radius: $border-radius-full;
+  color: $text-light;
+  transition: $transition;
 }
 
 .social-link:hover {
-  background-color: #FF5722;
+  background-color: $primary;
   transform: translateY(-3px);
-}
-
-.faq-section {
-  margin-top: 3rem;
-  padding: 2rem;
-  background-color: #1a1a1a;
-  border-radius: 8px;
-}
-
-.faq-group {
-  margin-bottom: 2rem;
-}
-
-.faq-group-title {
-  font-size: 1.5rem;
-  color: white;
-  margin-bottom: 1.5rem;
-}
-
-.faq-item {
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #333;
-}
-
-.faq-question {
-  font-size: 1.2rem;
-  color: #FF5722;
-  padding: 1rem 0;
-  margin: 0;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: color 0.3s ease;
-}
-
-.faq-question:hover {
-  color: #FF8A65;
-}
-
-.faq-question.active {
-  color: #FF8A65;
-}
-
-.faq-toggle {
-  font-size: 1.5rem;
-  color: #FF5722;
-  transition: transform 0.3s ease;
-}
-
-.faq-question.active .faq-toggle {
-  transform: rotate(180deg);
-}
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-  padding: 0 1rem;
-  opacity: 0;
-}
-
-.faq-answer.active {
-  max-height: 500px; /* Anpassen je nach Bedarf */
-  padding: 0 1rem 1rem;
-  opacity: 1;
-}
-
-.faq-answer p {
-  color: #ccc;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.faq-answer p:last-child {
-  margin-bottom: 0;
 }
 
 /* Contact Form Styling */
 .contact-form-container {
   background-color: #1a1a1a;
-  padding: 2rem;
-  border-radius: 8px;
+  padding: $spacing-lg;
+  border-radius: $border-radius-md;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: $spacing-md;
 }
 
 .form-group {
@@ -608,68 +434,68 @@ const getSocialIcon = (iconName) => {
 }
 
 .form-group label {
-  margin-bottom: 0.5rem;
+  margin-bottom: $spacing-xs;
   color: #ccc;
-  font-size: 0.9rem;
+  font-size: $font-size-small;
 }
 
 .form-group input,
 .form-group textarea {
-  padding: 0.8rem 1rem;
-  background-color: #242424;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: white;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  padding: $spacing-sm;
+  background-color: $text-dark;
+  border: $pixel-base solid $border-color;
+  border-radius: $border-radius-sm;
+  color: $text-light;
+  font-size: $spacing-sm;
+  transition: $transition;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #FF5722;
+  border-color: $primary;
 }
 
 .submit-btn {
-  background-color: #FF5722;
-  color: white;
-  padding: 1rem;
+  background-color: $primary;
+  color: $text-light;
+  padding: $spacing-sm;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: $border-radius-sm;
+  font-size: $spacing-sm;
+  font-weight: $font-weight-bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: $transition;
 }
 
 .submit-btn:hover {
-  background-color: #FF8A65;
+  background-color: $primary-light;
   transform: translateY(-2px);
 }
 
 .submit-btn:disabled {
-  background-color: #666;
+  background-color: $border-color;
   cursor: not-allowed;
   transform: none;
 }
 
 .status-message {
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-small;
   text-align: center;
 }
 
 .status-message.success {
-  background-color: rgba(76, 175, 80, 0.1);
-  color: #4CAF50;
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  background-color: $success;
+  color: $success-strong;
+  border: $pixel-base solid $success-light;
 }
 
 .status-message.error {
-  background-color: rgba(244, 67, 54, 0.1);
-  color: #F44336;
-  border: 1px solid rgba(244, 67, 54, 0.3);
+  background-color: $error-light;
+  color: $error;
+  border: $pixel-base solid $error-strong;
 }
 
 /* Responsive Styling */
@@ -679,7 +505,7 @@ const getSocialIcon = (iconName) => {
   }
   
   .contact-info {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-lg; 
   }
 }
 </style>

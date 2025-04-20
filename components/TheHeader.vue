@@ -10,8 +10,8 @@
       <nav class="nav-desktop">
         <ul class="nav-list">
           <li><a href="#about" class="nav-link">About</a></li>
-          <li><a href="#projects" class="nav-link">Projekte</a></li>
-          <li><a href="#contact" class="nav-link">Kontakt</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
       </nav>
       
@@ -68,54 +68,54 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
-  transition: all 0.3s ease;
-  padding: 1.5rem 0;
+  z-index: $z-index-navbar;
+  transition: $transition;
+  padding: $spacing-md 0;
 }
 
 .header-scrolled {
   background-color: rgba(18, 18, 18, 0.95);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  padding: 1rem 0;
+  box-shadow: $box-shadow-md;
+  padding: $spacing-sm 0;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: $max-width-lg;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 $spacing-lg;
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: $font-size-xlarge;
+  font-weight: $font-weight-bold;
 }
 
 .logo-text {
-  color: #FF5722;
+  color: $primary;
 }
 
 .nav-list {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: $spacing-lg;
 }
 
 .nav-link {
-  color: white;
+  color: $text-light;
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem;
-  transition: color 0.3s ease;
+  font-size: $font-size-medium;
+  font-weight: $font-weight-normal;
+  padding: $spacing-xs;
+  transition: $transition;
   position: relative;
 }
 
@@ -123,15 +123,15 @@ onUnmounted(() => {
   content: '';
   position: absolute;
   width: 0;
-  height: 2px;
+  height: calc($pixel-base * 2);
   bottom: 0;
   left: 0;
-  background-color: #FF5722;
-  transition: width 0.3s ease;
+  background-color: $primary;
+  transition: $transition;
 }
 
 .nav-link:hover {
-  color: #FF5722;
+  color: $primary;
 }
 
 .nav-link:hover::after {
@@ -144,16 +144,16 @@ onUnmounted(() => {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: $spacing-xs;
 }
 
 .bar {
   display: block;
-  width: 25px;
-  height: 3px;
-  margin: 5px 0;
-  background-color: white;
-  transition: all 0.3s ease;
+  width: $pixel-xxl;
+  height: $pixel-xs;
+  margin: $pixel-xs 0;
+  background-color: $text-light;
+  transition: $transition;
 }
 
 .nav-mobile {
@@ -162,12 +162,12 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  background-color: #121212;
-  padding-top: 5rem;
+  height: 100dvh;
+  background-color: $background-dark;
+  padding-top: $spacing-xxl;
   transform: translateX(100%);
-  transition: transform 0.3s ease;
-  z-index: 90;
+  transition: $transition;
+  z-index: $z-index-navbar;
 }
 
 .nav-mobile.open {
@@ -176,24 +176,24 @@ onUnmounted(() => {
 
 .mobile-nav-list {
   list-style: none;
-  padding: 2rem;
+  padding: $spacing-lg;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: $spacing-md;
 }
 
 .mobile-nav-link {
-  color: white;
+  color: $text-light;
   text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: $spacing-md;
+  font-weight: $font-weight-normal;
   display: block;
-  padding: 0.5rem 0;
-  transition: color 0.3s ease;
+  padding: $spacing-xs 0;
+  transition: $transition;
 }
 
 .mobile-nav-link:hover {
-  color: #FF5722;
+  color: $primary;
 }
 
 /* Media Queries für Responsive Design */
