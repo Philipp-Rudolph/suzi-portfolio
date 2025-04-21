@@ -1,14 +1,14 @@
 <!-- components/TheFooter.vue -->
 <template>
-  <footer class="footer">
+  <footer ref="sectionRef" class="footer">
     <div class="container">
-      <div class="footer-content">
+      <div class="footer-content" data-js-animation>
         <div class="footer-logo">
           <span class="logo-text">SZ</span>
           <p class="tagline">Video Editor & Motion Designer</p>
         </div>
         
-        <div class="footer-nav">
+        <div class="footer-nav" data-js-animation>
           <ul class="footer-links">
             <li><a href="#about" class="nav-link">About</a></li>
             <li><a href="#skills" class="nav-link">Skills</a></li>
@@ -19,7 +19,7 @@
         </div>
       </div>
       
-      <div class="footer-bottom">
+      <div class="footer-bottom" data-js-animation>
         <p class="copyright">© {{ currentYear }} Simone Zuccala. All rights reserved.</p>
         <button class="back-to-top" @click="scrollToTop">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -33,7 +33,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
+import { animateSectionOnScroll } from '~/composables/animate.js';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
 
 // Current year for copyright
 const currentYear = computed(() => new Date().getFullYear());

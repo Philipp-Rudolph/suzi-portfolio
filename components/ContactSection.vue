@@ -1,17 +1,17 @@
 <!-- components/ContactSection.vue -->
 <template>
-  <section id="contact" class="contact-section section">
+  <section id="contact" ref="sectionRef" class="contact-section section">
     <div class="container">
-      <h2 class="section-title">{{ contact.title }}</h2>
+      <h2 data-js-animation-title class="section-title">{{ contact.title }}</h2>
       
-      <div class="contact-content">
+      <div class="contact-content" data-js-animation>
         <div class="contact-info">
           <h3>{{ contact.meta.heading }}</h3>
           <p class="contact-text">
             {{ contact.meta.intro }}
           </p>
           
-          <div class="contact-details">
+          <div class="contact-details" data-js-animation>
             <div class="contact-item">
               <div class="contact-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -24,7 +24,7 @@
               </div>
             </div>
             
-            <div class="contact-item">
+            <div class="contact-item" data-js-animation>
               <div class="contact-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -37,7 +37,7 @@
               </div>
             </div>
             
-            <div class="contact-item">
+            <div class="contact-item" data-js-animation>
               <div class="contact-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -51,7 +51,7 @@
             </div>
           </div>
           
-          <div class="social-links">
+          <div class="social-links" data-js-animation>
             <a 
               v-for="social in contact.meta.social" 
               :key="social.name"
@@ -66,7 +66,7 @@
           </div>
         </div>
         
-        <div class="contact-form-container">
+        <div class="contact-form-container" data-js-animation>
           <form class="contact-form" @submit.prevent="handleSubmit">
             <div class="form-group">
               <label for="name">Name</label>
@@ -123,46 +123,22 @@
           </form>
         </div>
       </div>
-
-      <!-- FAQ-Sektion im bestehenden ContactSection.vue -->
-    <!-- FAQ-Sektion mit korrigierter Accordion-Logik -->
-    <div class="faq-section">
-      <template v-if="contact.body && Array.isArray(contact.body.value)">
-        <div class="faq-content">
-          <template v-for="(item, index) in groupedFaqItems" :key="index">
-            <div class="faq-group">
-              <h2 v-if="item.title" class="faq-group-title">{{ item.title }}</h2>
-              
-              <!-- FAQ Fragen mit Accordion-Funktionalität -->
-              <div v-for="(qa, qaIndex) in item.questions" :key="qaIndex" class="faq-item">
-                <h3 
-                  class="faq-question" 
-                  :class="{ 'active': openQuestions[qa.id] }"
-                  @click="toggleQuestion(qa.id)"
-                >
-                  {{ qa.question }}
-                  <span class="faq-toggle">{{ openQuestions[qa.id] ? '−' : '+' }}</span>
-                </h3>
-                <div 
-                  class="faq-answer"
-                  :class="{ 'active': openQuestions[qa.id] }"
-                >
-                  <p v-for="(paragraph, pIndex) in qa.answers" :key="pIndex">
-                    {{ paragraph }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </template>
-        </div>
-      </template>
-    </div>
-
     </div>
   </section>
 </template>
 
 <script setup>
+import { animateSectionOnScroll } from '~/composables/animate.js';
+import { onMounted, ref } from 'vue';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
+
 
 // Fetch contact data from Nuxt Content
 const { data: contactData } = await useAsyncData('contact', () =>

@@ -2,22 +2,43 @@
 $primary: #FF5722;
 $primary-light: #FF8A65;
 $primary-dark: #E64A19;
+$primary-translucent: #FF572210; 
 
 // Hintergrundfarben
 $background-dark: #121212;
 $background-darker: #0d0d0d;
 $background-lighter: #1a1a1a;
+$backdrop: rgba(0, 0, 0, 0.9);
 
 // Textfarben
 $text-light: #FFFFFF;
-$text-muted: #999999;
+$white-translucent: rgba(255, 255, 255, 0.2);
+$text-darker: #f5f5f5;
+$text-muted: #ccc;
+$text-darken: #999;
 $text-dark: #212121;
 
 // Rahmenfarben
 $border-color: #333333;
 
 // Statusfarben
-$success: #4CAF50;
+$success: rgba(76, 175, 80, 0.1);
+$success-light: rgba(76, 175, 80, 0.3);
+$success-strong: #4CAF50;
 $error: #F44336;
+$error-light: rgba(244, 67, 54, 0.1);
+$error-strong: rgba(244, 67, 54, 0.3);
 $warning: #FFC107;
 $info: #2196F3;
+
+// Schatten
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+$box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
+$box-shadow-active: 0 8px 16px rgba(0, 0, 0, 0.4);
+$box-shadow-focus: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+// Übergänge
+$transition: all 0.3s ease-in-out;
+$transition-fast: all 0.2s ease-in-out;
+$transition-slow: all 0.5s ease-in-out;
+$transition-ease: cubic-bezier(0.4, 0, 0.2, 1);

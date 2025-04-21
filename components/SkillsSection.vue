@@ -1,10 +1,10 @@
 <template>
-  <div class="about-skills section">
+  <div ref="sectionRef" class="about-skills section">
     <div class="container">
-      <div class="skills">
-        <h3 class="section-title">Meine Fähigkeiten</h3>
+      <div class="skills" data-js-animation>
+        <h3 data-js-animation-title class="section-title">Meine Fähigkeiten</h3>
         <div class="skills-grid">
-          <div v-for="(skill, index) in skillData" :key="index" class="skill-item">
+          <div v-for="(skill, index) in skillData" :key="index" class="skill-item" data-js-animation>
             <img class="skill-icon" :src="skill.icon">
             <h4 class="skill-name">{{ skill.name }}</h4>
             <p class="skill-description">{{ skill.description }}</p>
@@ -16,6 +16,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { animateSectionOnScroll } from '~/composables/animate.js';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
 
 // fetch skills from about data where files are called about-skill-<id>.md
 const { data: skillsData } = await useAsyncData('skills', () => queryCollection('aboutSkills').all());

@@ -100,7 +100,7 @@ export default defineNuxtConfig({
       },
     },
     watch: {
-      port: 4000,
+      port: 3000,
       showURL: true
     },
     preview: {

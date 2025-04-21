@@ -1,42 +1,50 @@
 <template>
-  <div class="faq-section section">
-    <div class=container>
-    <template v-if="faq.body && Array.isArray(faq.body.value)">
-      <div class="faq-content">
-        <template v-for="(item, index) in groupedFaqItems" :key="index">
-          <div class="faq-group">
-            <h2 v-if="item.title" class="faq-group-title section-title">{{ item.title }}</h2>
-            
-            <!-- FAQ Fragen mit Accordion-Funktionalität -->
-            <div v-for="(qa, qaIndex) in item.questions" :key="qaIndex" class="faq-item">
-              <h3 
-                class="faq-question" 
-                :class="{ 'active': openQuestions[qa.id] }"
-                @click="toggleQuestion(qa.id)"
-              >
-                {{ qa.question }}
-                <span class="faq-toggle">{{ openQuestions[qa.id] ? '−' : '+' }}</span>
-              </h3>
-              <div 
-                class="faq-answer"
-                :class="{ 'active': openQuestions[qa.id] }"
-              >
-                <p v-for="(paragraph, pIndex) in qa.answers" :key="pIndex">
-                  {{ paragraph }}
-                </p>
+  <div ref="sectionRef" class="faq-section section">
+    <div class="container">
+      <template v-if="faq.body && Array.isArray(faq.body.value)">
+        <div class="faq-content">
+          <template v-for="(item, index) in groupedFaqItems" :key="index">
+            <div class="faq-group" data-js-animation>
+              <h2 data-js-animation-title v-if="item.title" class="faq-group-title section-title">{{ item.title }}</h2>
+              
+              <!-- FAQ Fragen mit Accordion-Funktionalität -->
+              <div v-for="(qa, qaIndex) in item.questions" :key="qaIndex" class="faq-item" data-js-animation>
+                <h3 
+                  class="faq-question" 
+                  :class="{ 'active': openQuestions[qa.id] }"
+                  @click="toggleQuestion(qa.id)"
+                >
+                  {{ qa.question }}
+                  <span class="faq-toggle">{{ openQuestions[qa.id] ? '−' : '+' }}</span>
+                </h3>
+                <transition name="faq-transition" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+                  <div v-if="openQuestions[qa.id]" class="faq-answer">
+                    <p v-for="(paragraph, pIndex) in qa.answers" :key="pIndex">
+                      {{ paragraph }}
+                    </p>
+                  </div>
+                </transition>
               </div>
             </div>
-          </div>
-        </template>
-      </div>
-    </template>
-  </div>
+          </template>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script setup>
-
 import { ref, computed } from 'vue';
+import { animateSectionOnScroll } from '~/composables/animate.js';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
+
 
 // Zustandsvariable für geöffnete Fragen
 const openQuestions = ref({});
@@ -67,9 +75,10 @@ const faq = computed(() => {
       }
     };
   }
-  
+
   return faqData.value[0];
 });
+
 // Gruppiere FAQ-Elemente in eine besser strukturierte Form
 const groupedFaqItems = computed(() => {
   if (!faq.value?.body?.value || !Array.isArray(faq.value.body.value)) {
@@ -84,9 +93,9 @@ const groupedFaqItems = computed(() => {
   // Durchlaufe alle Elemente und gruppiere sie
   for (const item of items) {
     if (!Array.isArray(item) || item.length < 3) continue;
-    
+
     const [type, props, content] = item;
-    
+
     // Haupttitel (h2) beginnt eine neue Gruppe
     if (type === 'h2') {
       currentGroup = { 
@@ -127,6 +136,35 @@ const groupedFaqItems = computed(() => {
 
   return result;
 });
+
+// Transition-Hooks für sanftes Öffnen und Schließen
+const beforeEnter = (el) => {
+  el.style.maxHeight = '0';
+  el.style.opacity = '0';
+  el.style.transition = 'all 0.5s ease-out';
+};
+
+const enter = (el, done) => {
+  el.style.maxHeight = `${el.scrollHeight + 20}px`;  // Dynamische Höhe setzen
+  el.style.opacity = '1';
+  done();
+};
+
+const leave = (el, done) => {
+  el.style.maxHeight = `${el.scrollHeight}px`; // Starthöhe setzen
+  el.style.transition = 'all 0.5s ease-out';
+
+  // Kleines Timeout, um das Setzen der Starthöhe zuzulassen
+  requestAnimationFrame(() => {
+    el.style.maxHeight = '0';
+    el.style.opacity = '0';
+  });
+
+  // Warten, bis die Transition vorbei ist, bevor done() aufgerufen wird
+  setTimeout(() => {
+    done();
+  }, 500); // muss exakt zur Dauer in CSS passen!
+};
 
 </script>
 
@@ -183,16 +221,8 @@ const groupedFaqItems = computed(() => {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: $transition;
-  padding: 0 $spacing-sm;
   opacity: 0;
-  max-width: $max-width-sm;
-}
-
-.faq-answer.active {
-  max-height: $max-width-xs; 
-  padding: 0 $spacing-sm $spacing-sm;
-  opacity: 1;
+  padding: 0 $spacing-sm;
 }
 
 .faq-answer p {
@@ -201,8 +231,13 @@ const groupedFaqItems = computed(() => {
   margin-bottom: $spacing-sm;
 }
 
-.faq-answer p:last-child {
-  margin-bottom: 0;
+/* Transition für das Auf- und Zuklappen */
+.faq-transition-enter-active, .faq-transition-leave-active {
+  transition: all 0.5s ease-out;
 }
 
+.faq-transition-enter, .faq-transition-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
 </style>

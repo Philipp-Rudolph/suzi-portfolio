@@ -1,10 +1,10 @@
 <!-- components/AboutSection.vue -->
 <template>
-  <section id="about" class="about-section section">
+  <section id="about" ref="sectionRef" class="about-section section">
     <div class="container">
-      <h2 class="section-title">{{ about[0].title }}</h2>
+      <h2 data-js-animation-title class="section-title">{{ about[0].title }}</h2>
 
-      <div class="about-content">
+      <div class="about-content" data-js-animation>
         <div class="about-image">
           <div class="image-container">
             <img :src="about[0].meta.image" alt="Profilbild" class="profile-placeholder">
@@ -16,7 +16,7 @@
         <div class="about-text">
           <!-- About Text Content Cards -->
           <div class="content-cards">
-            <div v-for="(group, groupIndex) in contentGroups" :key="groupIndex" class="content-card">
+            <div v-for="(group, groupIndex) in contentGroups" :key="groupIndex" class="content-card" data-js-animation>
               <component 
                 :is="group.heading.type" 
                 :id="group.heading.props?.id" 
@@ -36,6 +36,17 @@
 </template>
 
 <script setup>
+import { animateSectionOnScroll } from '~/composables/animate.js';
+import { onMounted, ref } from 'vue';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
+
 // Fetch About Content
 const { data: about } = await useAsyncData('about', () => queryCollection('about').all());
 

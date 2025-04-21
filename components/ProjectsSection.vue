@@ -1,8 +1,8 @@
 <!-- components/ProjectsSection.vue -->
 <template>
-  <section id="projects" class="projects-section section">
+  <section id="projects" ref="sectionRef" class="projects-section section">
     <div class="container">
-      <h2 class="section-title">Meine Projekte</h2>
+      <h2 class="section-title" data-js-animation-title>Meine Projekte</h2>
 
       <!-- Debug info -->
       <!-- <div class="debug-info" style="background: #f5f5f5; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd;">
@@ -11,15 +11,18 @@
       </div> -->
 
       <div class="projects-filter">
-        <button v-for="category in categories" :key="category" :class="{ active: filterCategory === category }"
+        <button
+          v-for="category in categories" :key="category" :class="{ active: filterCategory === category }"
           class="filter-btn" @click="filterCategory = category">
           {{ category }}
         </button>
       </div>
       <div class="projects-grid">
-        <ProjectCard v-for="project in filteredProjects" :key="project._path" :project="project"
-          @click="openProjectDetails(project)" />
+        <ProjectCard
+          v-for="project in filteredProjects" :key="project._path" :project="project"
+          data-js-animation @click="openProjectDetails(project)"/>
       </div>
+
       <!-- Project Details Modal -->
       <div v-if="selectedProject" class="project-modal" :class="{ open: modalOpen }">
         <div class="modal-content">
@@ -57,7 +60,16 @@
 
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
+import { animateSectionOnScroll } from '~/composables/animate.js';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
 
 // Modal & Filter State
 const filterCategory = ref('Alle')

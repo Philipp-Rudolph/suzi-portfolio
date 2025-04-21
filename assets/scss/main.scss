@@ -43,13 +43,23 @@
     width: 60px;
     height: 3px;
     background-color: $primary;
-    @include hover-transition($transition-speed, $transition-function);
+  }
+}
+
+.title-underline {
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary); // or $primary if using SCSS
+    transition: width 0.8s ease;
   }
 
-  &:hover {
-    &::after {
-      width: 100%;
-    }
+  &.underline-visible::after {
+    width: 100%;
   }
 }
 

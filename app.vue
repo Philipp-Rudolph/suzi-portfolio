@@ -7,6 +7,18 @@
 </template>
 
 <script setup lang="ts">
+
+import { animateSectionOnScroll } from '~/composables/animate.js';
+import { onMounted, ref } from 'vue';
+
+const sectionRef = ref(null);
+
+onMounted(() => {
+  if (sectionRef.value) {
+    animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
+  }
+});
+
 // SEO und Meta-Tags
 useHead({
   titleTemplate: '%s - Video Editor & Motion Designer',
