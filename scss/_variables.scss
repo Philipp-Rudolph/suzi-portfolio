@@ -7,7 +7,10 @@ $font-size-medium: 1.2rem;
 $font-size-large: 1.5rem;
 $font-size-xlarge: 2rem;
 $font-size-xxlarge: 2.5rem;
+$font-size-max: 3.5rem;
 $line-height-base: 1.6;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
 
 // Abstände
 $spacing-xs: 0.5rem;
@@ -17,11 +20,28 @@ $spacing-lg: 2rem;
 $spacing-xl: 3rem;
 $spacing-xxl: 6rem;
 
+// Pixelwerte
+$pixel-base: 1px;
+$pixel-xs: 4px;
+$pixel-sm: 8px;
+$pixel-md: 12px;
+$pixel-lg: 16px;
+$pixel-xl: 20px;
+$pixel-xxl: 24px;
+$pixel-xxxl: 32px;
+
 // Breakpoints
 $breakpoint-xs: 576px;
 $breakpoint-sm: 768px;
 $breakpoint-md: 992px;
 $breakpoint-lg: 1200px;
+
+// Maximale Breite
+$max-width-xxs: 300px;
+$max-width-xs: 400px;
+$max-width-sm: 720px;
+$max-width-md: 960px;
+$max-width-lg: 1140px;
 
 // Border-Radien
 $border-radius-sm: 4px;
@@ -34,6 +54,10 @@ $transition-speed: 0.3s;
 $transition-function: ease;
 
 // Z-Index
+$z-index-background: -1;;
+$z-index-base: 0;
+$z-index-dropdown-menu: 10;
+$z-index-navbar: 100;
 $z-index-dropdown: 1000;
 $z-index-sticky: 1020;
 $z-index-fixed: 1030;

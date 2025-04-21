@@ -1,3 +1,7 @@
+// @import url('./_colors.scss');
+// @import url('./_mixins.scss');
+// @import url('./_colors.scss');
+
 // Die Variablen und Mixins werden durch additionalData in nuxt.config.js eingebunden
 // Flexbox mixins
 @mixin flex-center {
@@ -42,6 +46,23 @@
   }
 }
 
+.title-underline {
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary); // or $primary if using SCSS
+    transition: width 0.8s ease;
+  }
+
+  &.underline-visible::after {
+    width: 100%;
+  }
+}
+
 // Transition mixins
 @mixin hover-transition($speed, $function) {
   transition: all $speed $function;
@@ -78,7 +99,9 @@
 
 // Button mixins
 @mixin button-base {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-items: center;
   // padding: $spacing-sm $spacing-lg;
   border-radius: $border-radius-sm;
   font-weight: 600;
@@ -154,10 +177,20 @@ img {
 
 // Container
 .container {
-  max-width: $breakpoint-lg;
+  max-width: $max-width-lg;
   width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-lg;
+  padding: 0 2rem;
+}
+
+.section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $background-dark;
+  overflow: hidden;
+  padding: $spacing-xxl 0;
 }
 
 // Buttons
