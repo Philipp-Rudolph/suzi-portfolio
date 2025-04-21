@@ -1,7 +1,7 @@
 <!-- components/TheFooter.vue -->
 <template>
   <footer ref="sectionRef" class="footer">
-    <div class="container">
+    <div class="container" data-js-animation>
       <div class="footer-content" data-js-animation>
         <div class="footer-logo">
           <span class="logo-text">SZ</span>

@@ -1,6 +1,6 @@
 <template>
   <div ref="sectionRef" class="faq-section section">
-    <div class="container">
+    <div class="container" data-js-animation>
       <template v-if="faq.body && Array.isArray(faq.body.value)">
         <div class="faq-content">
           <template v-for="(item, index) in groupedFaqItems" :key="index">
@@ -175,12 +175,6 @@ const leave = (el, done) => {
 
 .faq-group {
   margin-bottom: $spacing-lg;
-}
-
-.faq-group-title {
-  font-size: $spacing-md;
-  color: $text-light;
-  margin-bottom: $spacing-md;
 }
 
 .faq-item {

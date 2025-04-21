@@ -1,7 +1,7 @@
 <!-- components/ProjectsSection.vue -->
 <template>
   <section id="projects" ref="sectionRef" class="projects-section section">
-    <div class="container">
+    <div class="container" data-js-animation>
       <h2 class="section-title" data-js-animation-title>Meine Projekte</h2>
 
       <!-- Debug info -->

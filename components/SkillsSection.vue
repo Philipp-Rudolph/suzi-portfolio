@@ -1,7 +1,7 @@
 <template>
   <div ref="sectionRef" class="about-skills section">
-    <div class="container">
-      <div class="skills" data-js-animation>
+    <div class="container" data-js-animation>
+      <div class="skills">
         <h3 data-js-animation-title class="section-title">Meine Fähigkeiten</h3>
         <div class="skills-grid">
           <div v-for="(skill, index) in skillData" :key="index" class="skill-item" data-js-animation>
@@ -66,7 +66,7 @@ const skillData = skillsData.value ? skillsData.value.map(skill => ({
 }
 
 .skill-item:hover {
-  transform: translateY(calc(-1 * $pixel-xs - 1px));
+  transform: translateY(calc(-1 * $pixel-xs - 1px)) !important;
   box-shadow: $box-shadow-hover;
 }
 

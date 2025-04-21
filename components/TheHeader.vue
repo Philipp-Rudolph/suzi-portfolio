@@ -18,19 +18,30 @@
       </nav>
       
       <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" @click="toggleMobileMenu">
-        <span class="bar"/>
-        <span class="bar"/>
-        <span class="bar"/>
+      <button class="mobile-menu-btn burger" :class="{ active: mobileMenuOpen }" @click="toggleMobileMenu">
+        <div class="burger-icon">
+          <span class="bar"/>
+          <span class="bar"/>
+          <span class="bar"/>
+        </div>
       </button>
     </div>
     
     <!-- Mobile Navigation -->
     <div class="nav-mobile" :class="{ 'open': mobileMenuOpen }">
+      <div class="mobile-menu-content">
+        <div class="logo">
+          <span class="logo-text">Portfolio</span>
+        </div>
+        <p class="mobile-menu-description">by Simone Zuccala</p>
+      </div>
+      <div class="mobile-menu-divider"/>
       <ul class="mobile-nav-list">
         <li><a href="#about" class="mobile-nav-link" @click="closeMobileMenu">About</a></li>
-        <li><a href="#projects" class="mobile-nav-link" @click="closeMobileMenu">Projekte</a></li>
-        <li><a href="#contact" class="mobile-nav-link" @click="closeMobileMenu">Kontakt</a></li>
+        <li><a href="#skills" class="mobile-nav-link" @click="closeMobileMenu">Skills</a></li>
+        <li><a href="#projects" class="mobile-nav-link" @click="closeMobileMenu">Projects</a></li>
+        <li><a href="#contact" class="mobile-nav-link" @click="closeMobileMenu">Contact</a></li>
+        <li><a href="#faq" class="mobile-nav-link" @click="closeMobileMenu">FAQ</a></li>
       </ul>
     </div>
   </header>
@@ -140,23 +151,62 @@ onUnmounted(() => {
   width: 100%;
 }
 
-/* Mobile Menu */
 .mobile-menu-btn {
   display: none;
   background: none;
   border: none;
+  padding: 0;
   cursor: pointer;
-  padding: $spacing-xs;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  z-index: $z-index-dropdown;
+
+  .burger-icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .bar {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background-color: $text-light;
+    border-radius: 1px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    position: absolute;
+  }
+
+  .bar:nth-child(1) {
+    top: 1px;
+  }
+
+  .bar:nth-child(2) {
+    top: 8px;
+  }
+
+  .bar:nth-child(3) {
+    top: 16px;
+  }
+
+  &.active .bar:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  &.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  &.active .bar:nth-child(3) {
+    transform: rotate(-45deg);
+  }
 }
 
-.bar {
-  display: block;
-  width: $pixel-xxl;
-  height: $pixel-xs;
-  margin: $pixel-xs 0;
-  background-color: $text-light;
-  transition: $transition;
-}
 
 .nav-mobile {
   display: none;
@@ -198,6 +248,20 @@ onUnmounted(() => {
   color: $primary;
 }
 
+.mobile-menu-divider {
+  width: 100%;
+  height: $pixel-base;
+  background-color: $border-color;
+  margin: $spacing-lg 0;
+}
+
+.mobile-menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-lg;
+}
+
 /* Media Queries für Responsive Design */
 @media (max-width: 768px) {
   .nav-desktop {
@@ -212,17 +276,17 @@ onUnmounted(() => {
     display: block;
   }
   
-  /* Animation für Hamburger zu X */
   .mobile-menu-btn.active .bar:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-  }
-  
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
   .mobile-menu-btn.active .bar:nth-child(2) {
     opacity: 0;
   }
-  
+
   .mobile-menu-btn.active .bar:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
+    transform: rotate(-45deg) translate(5px, -5px);
   }
+
 }
 </style>

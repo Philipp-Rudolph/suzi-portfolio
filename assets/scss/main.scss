@@ -70,7 +70,7 @@
 
 // Effect mixins
 @mixin card-hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) !important;
   box-shadow: $box-shadow-lg;
 }
 

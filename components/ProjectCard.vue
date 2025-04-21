@@ -40,7 +40,7 @@ defineEmits(['click']);
 }
 
 .project-card:hover {
-  transform: translateY(-$pixel-xs);
+  transform: translateY(-$pixel-xs) !important;
   box-shadow: $box-shadow-lg;
 }
 

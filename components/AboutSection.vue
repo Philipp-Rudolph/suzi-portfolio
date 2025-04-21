@@ -1,7 +1,7 @@
 <!-- components/AboutSection.vue -->
 <template>
   <section id="about" ref="sectionRef" class="about-section section">
-    <div class="container">
+    <div class="container" data-js-animation>
       <h2 data-js-animation-title class="section-title">{{ about[0].title }}</h2>
 
       <div class="about-content" data-js-animation>
@@ -167,7 +167,7 @@ const contentGroups = processContentArray(aboutData[0].body.value);
 }
 
 .content-card:hover {
-  transform: translateY(calc(-1 * $pixel-xs - 1px));
+  transform: translateY(calc(-1 * $pixel-xs - 1px)) !important;
   box-shadow: $box-shadow-lg;
 }
 

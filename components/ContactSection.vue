@@ -1,7 +1,7 @@
 <!-- components/ContactSection.vue -->
 <template>
   <section id="contact" ref="sectionRef" class="contact-section section">
-    <div class="container">
+    <div class="container" data-js-animation>
       <h2 data-js-animation-title class="section-title">{{ contact.title }}</h2>
       
       <div class="contact-content" data-js-animation>
