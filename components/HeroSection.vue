@@ -11,10 +11,9 @@
         playsinline
         class="fullscreen-video"
       >
-        <source :src="heroData?.backgroundVideo || '/videos/compressed_720p.mp4'" type="video/mp4" >
+        <source :src="heroData?.meta?.video" type="video/mp4" >
         Your browser does not support the video tag.
       </video>
-      <div class="video-overlay" />
     </div>
 
     <!-- Particle background -->
@@ -29,21 +28,31 @@
 
     <div class="hero-content">
       <h1 class="hero-title">
-        <span class="name animate-fade-in" :data-text="heroData?.name || 'Max Mustermann'">
-          {{ heroData?.name || 'Max Mustermann' }}
+        <span class="name animate-fade-in" :data-text="heroData?.meta?.name || 'Max Mustermann'">
+          {{ heroData?.meta?.name || 'Max Mustermann' }}
         </span>
         <span class="profession animate-fade-in animate-delay-1">
-          {{ heroData?.profession || 'Video Editor & Motion Designer' }}
+          {{ heroData?.meta?.profession || 'Video Editor & Motion Designer' }}
         </span>
       </h1>
 
+      <div class="hero-reel animate-fade-in animate-delay-2">
+        <div class="reel-container">
+          <div class="reel-placeholder">
+            <div class="animation-element"/>
+            <div class="animation-trail"/>
+          </div>
+          <div class="reel-glow"/>
+        </div>
+      </div>
+
       <div class="hero-cta animate-fade-in animate-delay-3">
         <a href="#projects" class="btn-primary">
-          {{ heroData?.ctaPrimary || 'Meine Arbeiten' }}
+          {{ heroData?.meta?.ctaPrimary }}
           <span class="btn-glow" />
         </a>
         <a href="#contact" class="btn-secondary">
-          {{ heroData?.ctaSecondary || 'Kontakt' }}
+          {{ heroData?.meta?.ctaSecondary }}
         </a>
       </div>
     </div>
@@ -59,11 +68,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const videoRef = ref(null);
 const particlesContainer = ref(null);
 let animationFrame = null;
+const { data: heroData } = await useCollectionData('hero')
 
 // Load and style video on mount
 function handleVideoLoaded() {
@@ -94,21 +104,6 @@ onUnmounted(() => {
   if (videoRef.value) {
     videoRef.value.removeEventListener('canplay', handleVideoLoaded);
   }
-});
-
-// Fetch data (same logic)
-const { data: hero } = await useAsyncData('hero', () => queryCollection('hero').all());
-
-const heroData = computed(() => {
-  if (!hero.value) return null;
-  return {
-    name: hero.value[0].title || 'Max Mustermann',
-    profession: hero.value[0].profession || 'Video Editor & Motion Designer',
-    image: hero.value[0].image || hero.value[0]?.meta?.image,
-    backgroundVideo: hero.value[0]?.backgroundVideo || null,
-    ctaPrimary: hero.value[0].ctaPrimary || 'Meine Arbeiten',
-    ctaSecondary: hero.value[0].ctaSecondary || 'Kontakt'
-  };
 });
 
 // Particles
@@ -209,16 +204,6 @@ function initParticles() {
 
 .video-loaded {
   opacity: 1;
-}
-
-.video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1); // Adjust darkness as needed
-  z-index: 1;
 }
 
 // Animation classes for fade-in

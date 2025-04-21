@@ -2,11 +2,11 @@
   <div ref="sectionRef" class="about-skills section">
     <div class="container" data-js-animation>
       <div class="skills">
-        <h3 data-js-animation-title class="section-title">Meine Fähigkeiten</h3>
+        <h3 data-js-animation-title class="section-title">My Skills</h3>
         <div class="skills-grid">
           <div v-for="(skill, index) in skillData" :key="index" class="skill-item" data-js-animation>
-            <img class="skill-icon" :src="skill.icon">
-            <h4 class="skill-name">{{ skill.name }}</h4>
+            <img class="skill-icon" :src="skill.meta.icon">
+            <h4 class="skill-name">{{ skill.title }}</h4>
             <p class="skill-description">{{ skill.description }}</p>
           </div>
         </div>
@@ -18,8 +18,8 @@
 <script setup>
 import { ref } from 'vue';
 import { animateSectionOnScroll } from '~/composables/animate.js';
-
-const sectionRef = ref(null);
+const { data: skillData } = await useCollectionData('skills');
+const sectionRef = ref(null)
 
 onMounted(() => {
   if (sectionRef.value) {
@@ -27,15 +27,6 @@ onMounted(() => {
   }
 });
 
-// fetch skills from about data where files are called about-skill-<id>.md
-const { data: skillsData } = await useAsyncData('skills', () => queryCollection('aboutSkills').all());
-
-// Map skills data to a more usable format
-const skillData = skillsData.value ? skillsData.value.map(skill => ({
-  name: skill.title,
-  description: skill.description,
-  icon: skill.meta.icon
-})) : [];
 
 </script>
 

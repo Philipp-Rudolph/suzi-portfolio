@@ -2,31 +2,26 @@
 <template>
   <section id="about" ref="sectionRef" class="about-section section">
     <div class="container" data-js-animation>
-      <h2 data-js-animation-title class="section-title">{{ about[0].title }}</h2>
+      <h2 data-js-animation-title class="section-title">{{ aboutData.title }}</h2>
 
       <div class="about-content" data-js-animation>
         <div class="about-image">
           <div class="image-container">
-            <img :src="about[0].meta.image" alt="Profilbild" class="profile-placeholder">
-            <!-- Optionaler Effekt für mehr visuelles Interesse -->
+            <img :src="aboutData.meta.image" alt="Profilbild" class="profile-placeholder">
             <div class="image-decoration" />
           </div>
         </div>
         
         <div class="about-text">
-          <!-- About Text Content Cards -->
           <div class="content-cards">
-            <div v-for="(group, groupIndex) in contentGroups" :key="groupIndex" class="content-card" data-js-animation>
-              <component 
-                :is="group.heading.type" 
-                :id="group.heading.props?.id" 
-                class="content-card-heading"
-              >
-                {{ group.heading.content }}
-              </component>
-              <div v-for="(paragraph, pIndex) in group.paragraphs" :key="`p-${groupIndex}-${pIndex}`" class="content-card-paragraph">
-                {{ paragraph.content }}
-              </div>
+            <div
+              v-for="(card, index) in aboutCards"
+              :key="index"
+              class="content-card"
+              data-js-animation
+            > 
+              <h3 class="content-card-heading">{{ card.headline }}</h3>
+              <p class="content-card-paragraph">{{ card.text }}</p>
             </div>
           </div>
         </div>
@@ -36,52 +31,43 @@
 </template>
 
 <script setup>
+// imports
 import { animateSectionOnScroll } from '~/composables/animate.js';
 import { onMounted, ref } from 'vue';
 
+// composables
+const { data: aboutData } = await useCollectionData('about');
+
 const sectionRef = ref(null);
 
+// cards
+const aboutCards = computed(() => {
+  const body = aboutData.value.body.value;
+  const cards = [];
+
+  for (let i = 0; i < body.length; i++) {
+    const block = body[i];
+    const next = body[i + 1];
+
+    if ((block[0] === 'h1' || block[0] === 'h2') && next && next[0] === 'p') {
+      cards.push({
+        headline: block[2],
+        text: next[2],
+      });
+      i++; // Skip the paragraph in next loop
+    }
+  }
+
+  return cards;
+});
+
+// mounted hook
 onMounted(() => {
   if (sectionRef.value) {
     animateSectionOnScroll(sectionRef.value, 300); // Adjust delay to your taste
   }
 });
 
-// Fetch About Content
-const { data: about } = await useAsyncData('about', () => queryCollection('about').all());
-
-const aboutData = about.value ? about.value.map(entry => entry) : [];
-
-// // Process the array into groups with headings and paragraphs
-const processContentArray = (arr) => {
-  if (typeof arr !== 'object' || !Array.isArray(arr)) {
-    return [];
-  }
-  
-  const groups = [];
-  let currentGroup = null;
-
-  for (const item of arr) {
-    const [type, props, content] = item;
-    
-    // If this is a heading, start a new group
-    if (type.startsWith('h')) {
-      currentGroup = {
-        heading: { type, props, content },
-        paragraphs: []
-      };
-      groups.push(currentGroup);
-    } 
-    // If this is a paragraph, add to the current group
-    else if (type === 'p' && currentGroup) {
-      currentGroup.paragraphs.push({ type, props, content });
-    }
-  }
-
-  return groups;
-};
-
-const contentGroups = processContentArray(aboutData[0].body.value);
 </script>
 
 <style lang="scss" scoped>

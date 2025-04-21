@@ -1,9 +1,11 @@
+---
+name: Zimone Zuccala
+profession: Video Editor di Milano
+video: /videos/compressed_720p.mp4
+ctaPrimary: Progetti 
+ctaSecondary: Contatti
+---
+
 # Simone Zuccala
 
 ## Portfolio
-
----
-title: Zimone Zuccala - Video Editor & Motion Designer
-description: Video Editor di Milano
-image: /images/suzi-portrait.jpg
----

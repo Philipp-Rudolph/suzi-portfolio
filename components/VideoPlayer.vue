@@ -104,15 +104,13 @@ const showControls = ref(false);
 const controlsTimeout = ref(null);
 const interacted = ref(false);
 
-// Toggle play/pause
 const togglePlay = () => {
   interacted.value = true;
   if (!videoRef.value) return;
-  const audio = new Audio(videoRef.value);
   if (isPlaying.value) {
-    audio.pause();
+    videoRef.value.pause();
   } else {
-    audio.play();
+    videoRef.value.play();
   }
 };
 
@@ -239,18 +237,20 @@ watch(() => props.src, (newSrc) => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .video-player {
   width: 100%;
+  min-height: 100%;
   position: relative;
-  overflow: hidden;
   background-color: black;
+  border-radius: $border-radius-md;
 }
 
 .video-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 16 / 9;
+  background-color: black;
 }
 
 .video-element {
@@ -260,56 +260,73 @@ watch(() => props.src, (newSrc) => {
   background-color: black;
 }
 
-/* Controls */
+/* --- Controls --- */
 .video-controls {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  padding: 1rem;
+  padding: 0 $spacing-md;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: $spacing-sm;
   transition: opacity 0.3s ease;
+  z-index: 2;
 }
 
-.play-pause-btn, .volume-btn, .fullscreen-btn {
+.play-pause-btn,
+.volume-btn,
+.fullscreen-btn {
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  padding: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.play-pause-btn:hover,
+.volume-btn:hover,
+.fullscreen-btn:hover {
+  color: $primary;
 }
 
 .progress-container {
   flex: 1;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .progress-bar {
-  height: 5px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-  overflow: hidden;
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
   position: relative;
+  overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background-color: #FF5722;
-  border-radius: 5px;
+  width: 0%;
+  background-color: $primary;
   transition: width 0.1s linear;
+  border-radius: 3px;
 }
 
+/* --- Time Display --- */
 .time-display {
-  display: flex;
-  gap: 0.5rem;
   color: white;
   font-size: 0.8rem;
-  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  white-space: nowrap;
 }
 
+/* --- Volume --- */
 .volume-container {
   display: flex;
   align-items: center;
@@ -323,28 +340,27 @@ watch(() => props.src, (newSrc) => {
 .volume-slider {
   width: 100%;
   cursor: pointer;
-  accent-color: #FF5722;
+  accent-color: $primary;
 }
 
-/* Play Overlay */
+/* --- Play Overlay --- */
 .play-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  z-index: 1;
+  transition: background-color 0.2s ease;
 }
 
 .play-button {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background-color: rgba(255, 87, 34, 0.8);
+  background-color: rgba(255, 87, 34, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -353,27 +369,38 @@ watch(() => props.src, (newSrc) => {
 
 .play-button span {
   color: white;
-  font-size: 2rem;
+  font-size: 2.2rem;
   padding-left: 5px;
 }
 
 .play-overlay:hover .play-button {
   transform: scale(1.1);
-  background-color: #FF5722;
+  background-color: $primary;
 }
 
-/* Responsive adjustments */
+/* --- Responsive --- */
 @media (max-width: 768px) {
   .video-controls {
-    padding: 0.5rem;
+    padding: $spacing-xs;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
   }
-  
+
   .volume-slider-container {
     display: none;
   }
-  
+
   .time-display {
     font-size: 0.7rem;
+  }
+
+  .play-button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .play-button span {
+    font-size: 1.8rem;
   }
 }
 </style>

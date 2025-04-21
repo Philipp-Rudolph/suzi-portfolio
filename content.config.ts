@@ -14,9 +14,9 @@ export default defineContentConfig({
       type: 'page',
       source: 'about/*.md'
     }),
-    aboutSkills: defineCollection({
+    skills: defineCollection({
       type: 'page',
-      source: 'about/*skill*.md'
+      source: 'skills/*.md'
     }),
     projects: defineCollection({
       type: 'page',

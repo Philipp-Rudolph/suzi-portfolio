@@ -1,10 +1,9 @@
 <!-- components/ProjectCard.vue -->
 <template>
-  <!-- <pre><code>{{ project }}</code></pre> -->
   <div class="project-card" @click="$emit('click')">
     <div class="project-thumbnail" :style="{ backgroundImage: `url(${project.meta.thumbnail})` }">
       <div class="project-overlay">
-        <div class="project-category">{{ project.category }}</div>
+        <div class="project-category">{{ project.meta.category }}</div>
         <div class="project-actions">
           <button class="action-btn">
             <span class="play-icon">▶</span>
