@@ -10,7 +10,6 @@
         muted
         playsinline
         class="fullscreen-video"
-        style="opacity: 1;"
       >
         <source :src="heroData?.backgroundVideo || '/videos/compressed_720p.mp4'" type="video/mp4" >
         Your browser does not support the video tag.
@@ -79,7 +78,12 @@ onMounted(() => {
   window.addEventListener('resize', handleResize);
 
   if (videoRef.value) {
-    videoRef.value.addEventListener('loadeddata', handleVideoLoaded);
+    // fallback if already ready
+    if (videoRef.value.readyState >= 3) {
+      handleVideoLoaded();
+    } else {
+      videoRef.value.addEventListener('canplay', handleVideoLoaded);
+    }
   }
 });
 
@@ -88,7 +92,7 @@ onUnmounted(() => {
   if (animationFrame) cancelAnimationFrame(animationFrame);
 
   if (videoRef.value) {
-    videoRef.value.removeEventListener('loadeddata', handleVideoLoaded);
+    videoRef.value.removeEventListener('canplay', handleVideoLoaded);
   }
 });
 
