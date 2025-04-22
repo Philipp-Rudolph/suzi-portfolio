@@ -36,7 +36,7 @@
         </span>
       </h1>
 
-      <div class="hero-reel animate-fade-in animate-delay-2">
+      <!-- <div class="hero-reel animate-fade-in animate-delay-2">
         <div class="reel-container">
           <div class="reel-placeholder">
             <div class="animation-element"/>
@@ -44,7 +44,7 @@
           </div>
           <div class="reel-glow"/>
         </div>
-      </div>
+      </div> -->
 
       <div class="hero-cta animate-fade-in animate-delay-3">
         <a href="#projects" class="btn-primary">
