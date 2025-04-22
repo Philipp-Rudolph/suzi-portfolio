@@ -1,5 +1,5 @@
 ---
-name: Zimone Zuccala
+name: Simone Zuccala
 profession: Video Editor di Milano
 video: /videos/compressed_720p.mp4
 ctaPrimary: Progetti 

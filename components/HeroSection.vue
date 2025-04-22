@@ -317,7 +317,7 @@ function initParticles() {
   
   /* Approach 1: Enhanced gradient text with better visibility */
   color: $text-light; /* Fallback color */
-  background: linear-gradient(90deg, blue, $primary, blue);
+  background: linear-gradient(90deg, gold, $primary, gold);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
