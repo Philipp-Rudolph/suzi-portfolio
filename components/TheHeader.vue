@@ -4,7 +4,7 @@
     <div class="header-content">
       <div class="logo">
         <!-- Logo kann hier platziert werden -->
-        <span class="logo-text">Portfolio</span>
+        <span id="brand-logo" class="logo-text">SZ</span>
       </div>
       
       <nav class="nav-desktop">
@@ -111,6 +111,7 @@ onUnmounted(() => {
   font-size: $font-size-xlarge;
   font-weight: $font-weight-bold;
 }
+
 
 .logo-text {
   color: $primary;

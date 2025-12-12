@@ -168,6 +168,9 @@ function initParticles() {
 </script>
 
 <style scoped lang="scss">
+// import the fonts.scss
+@use '~/assets/scss/fonts.scss';
+
 .hero {
   height: 100dvh;
   position: relative;
